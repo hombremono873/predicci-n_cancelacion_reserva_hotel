@@ -4,3 +4,5 @@ CLAUDE.md
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+*.ppsx
+*.html
