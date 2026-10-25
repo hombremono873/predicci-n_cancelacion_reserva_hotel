@@ -1,6 +1,4 @@
 entorno/
-CLAUDE.md
-.claude/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
