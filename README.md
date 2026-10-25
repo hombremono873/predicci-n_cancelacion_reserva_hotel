@@ -1,5 +1,9 @@
 # Predicción de cancelaciones de reservas hoteleras
 
+**Abrir la aplicación en línea: https://prediccion-cancelacion-reserva-hotel.streamlit.app/**
+
+No requiere instalar nada: funciona desde el navegador del computador o del celular.
+
 Proyecto de minería de datos que estima la probabilidad de que una reserva hotelera sea cancelada. Incluye el análisis completo en un notebook (exploración, limpieza, modelado y exportación del modelo) y una aplicación web en Streamlit para consultar el riesgo de cancelación de una reserva.
 
 ## Contexto
@@ -88,7 +92,7 @@ Streamlit Community Cloud publica gratis aplicaciones que están en un repositor
 
 Cada vez que se sube un cambio a la rama main, la aplicación se actualiza sola.
 
-**Dirección de la aplicación publicada**: (se agrega aquí cuando esté desplegada)
+**Dirección de la aplicación publicada**: https://prediccion-cancelacion-reserva-hotel.streamlit.app/
 
 ## Uso de la aplicación
 
