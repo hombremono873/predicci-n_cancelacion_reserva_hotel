@@ -4,18 +4,18 @@
 
 No requiere instalar nada: funciona desde el navegador del computador o del celular.
 
-Proyecto de minería de datos que estima la probabilidad de que una reserva hotelera sea cancelada. Incluye el análisis completo en un notebook (exploración, limpieza, modelado y exportación del modelo) y una aplicación web en Streamlit para consultar el riesgo de cancelación de una reserva.
+Proyecto de minería de datos que estima la probabilidad de que una reserva hotelera sea cancelada. Tiene dos partes: un notebook de Google Colab con todo el análisis (exploración, limpieza, modelado y exportación del modelo) y una aplicación web en Streamlit que usa el modelo entrenado para calcular el riesgo de cancelación de una reserva.
 
 ## Contexto
 
-Las cancelaciones generan habitaciones vacías y pérdida de ingresos. En los datos usados, el **27,7 %** de las reservas se cancela. Anticipar qué reservas tienen riesgo alto permite al hotel confirmar con el cliente, ajustar la sobreventa o pedir garantías.
+Las cancelaciones dejan habitaciones vacías y causan pérdida de ingresos. En los datos usados, el **27,7 %** de las reservas se cancela. Saber qué reservas tienen riesgo alto le permite al hotel confirmar con el cliente, ajustar la sobreventa o pedir garantías.
 
-- **Datos**: Hotel Booking Demand (Kaggle), reservas de un hotel de ciudad y un hotel de playa en Portugal entre 2015 y 2017.
+- **Datos**: Hotel Booking Demand (Kaggle), 119.390 reservas de un hotel urbano y un hotel resort en Portugal, entre 2015 y 2017.
 - **Variable objetivo**: target_cancelada (1 si la reserva se canceló, 0 si no).
 
 ## Resultados
 
-Se compararon nueve modelos en tres experimentos (con mes, con semana y sin las variables de bajo aporte). El mejor fue **Gradient Boosting del Experimento 3**:
+Se compararon tres modelos (regresión logística, Random Forest y Gradient Boosting) en tres experimentos: con el mes de llegada, con la semana de llegada y sin las variables de menor aporte. El elegido fue **Gradient Boosting del Experimento 3**:
 
 | Medida | Valor |
 |---|---|
@@ -28,42 +28,51 @@ Se compararon nueve modelos en tres experimentos (con mes, con semana y sin las 
 
 | Archivo o carpeta | Contenido |
 |---|---|
-| ReservaHotel.ipynb | Notebook principal (47 pasos), pensado para Google Colab |
-| ReservaHotelBackup.ipynb | Versión anterior del notebook, con todo el código en las celdas |
-| constantes.py | Constantes del proyecto |
-| exploracion.py | Descarga, lectura y análisis exploratorio |
-| limpieza.py | Duplicados, fugas de información, valores imposibles, imputación y transformaciones |
-| modelado.py | División de los datos, pipelines, métricas e importancia de las variables |
-| exportacion.py | Comparación de modelos, elección del mejor y guardado |
+| Diego_Jorge_Omar_Reserva_Hotel_Backup.ipynb | Notebook del proyecto (50 pasos), pensado para Google Colab |
 | modelos/modelo_cancelaciones.joblib | Modelo entrenado que usa la aplicación |
 | app.py | Punto de entrada de la aplicación Streamlit |
-| reserva_hotel/ | Código de la aplicación (configuración, transformación, predicción e interfaz) |
+| reserva_hotel/ | Código de la aplicación: configuración, transformación de la reserva, predicción e interfaz |
 | .streamlit/config.toml | Tema visual de la aplicación |
-| requirements.txt | Librerías y versiones necesarias |
+| requirements.txt | Librerías y versiones que necesita la aplicación |
 
-## Acceso al repositorio en GitHub
+## El notebook
 
-El código está en:
+Todo el código está dentro del notebook, así que no necesita archivos adicionales. Está organizado en 50 pasos:
 
-https://github.com/hombremono873/predicci-n_cancelacion_reserva_hotel
+| Pasos | Etapa | Qué se hace |
+|---|---|---|
+| 1 a 3 | Extracción | Librerías, constantes del proyecto y descarga del dataset desde Kaggle |
+| 4 a 15 | Exploración | Renombrado al español, nulos, duplicados, distribuciones, asimetría y correlación |
+| 16 a 24 | Limpieza y transformación | Duplicados, columnas con fuga de datos, valores imposibles, imputación, indicadores, transformaciones y validación |
+| 25 | Carga | Guardado del dataset limpio en un archivo CSV |
+| 26 a 46 | Modelado | División en entrenamiento y prueba, tres experimentos con tres modelos y comparación final |
+| 47 a 50 | Exportación | Elección, guardado y descarga del mejor modelo, y una función main con todo el flujo |
 
-Para descargarlo se puede usar el botón **Code** y luego **Download ZIP**, o clonarlo con git:
+### Ejecutarlo en Google Colab
 
-```
-git clone https://github.com/hombremono873/predicci-n_cancelacion_reserva_hotel.git
-cd predicci-n_cancelacion_reserva_hotel
-```
+1. Abrir https://colab.research.google.com y subir **Diego_Jorge_Omar_Reserva_Hotel_Backup.ipynb** (menú Archivo, Subir notebook).
+2. Ejecutar todas las celdas en orden (menú Entorno de ejecución, Ejecutar todas). El dataset se descarga solo desde Kaggle.
+3. Al final se descarga **modelo_cancelaciones.joblib**. Para usarlo en la aplicación, se copia en la carpeta **modelos** del proyecto.
 
-## Ejecutar el notebook en Google Colab
+El modelo solo carga con la misma versión de scikit-learn con que se entrenó (1.6.1). Antes de reemplazar el modelo de la aplicación, conviene revisar la tabla de versiones del Paso 48.
 
-1. Abrir https://colab.research.google.com y subir **ReservaHotel.ipynb** (menú Archivo, Subir notebook).
-2. En el panel **Archivos** de Colab, subir constantes.py, exploracion.py, limpieza.py, modelado.py y exportacion.py.
-3. Ejecutar todas las celdas en orden. El dataset se descarga solo desde Kaggle con kagglehub.
-4. Al final se descarga **modelo_cancelaciones.joblib**, que es el que usa la aplicación.
+## La aplicación
 
-Si se modifica alguno de los archivos .py, hay que reiniciar la sesión de Colab para que tome los cambios.
+La aplicación no vuelve a entrenar el modelo. Usa dos cosas del notebook:
 
-## Ejecutar la aplicación en el computador
+- **El modelo entrenado** (modelos/modelo_cancelaciones.joblib), que incluye la preparación de las variables categóricas.
+- **Las transformaciones de los pasos 21 a 23** (indicadores, logaritmo y raíz cuadrada, y codificación del mes y del régimen de comidas), copiadas en reserva_hotel/transformacion.py. Si se cambian en el notebook, hay que cambiarlas también allí.
+
+### Uso
+
+- **Portada**: presenta el proyecto y los créditos. El botón **Continuar** abre la aplicación.
+- **Menú lateral**: permite cargar una reserva de ejemplo (riesgo bajo, medio o alto) que llena todo el formulario, elegir el umbral de riesgo alto y ver qué modelo se usa.
+- **Predicción**: los datos de la reserva se llenan en cuatro pestañas (Llegada, Huéspedes, Canal y cliente, Historial). La tarjeta de resultado muestra la probabilidad de cancelación y el nivel de riesgo, y se actualiza con cada cambio.
+- **Cómo funciona**: explica qué datos usa el modelo, cómo leer el resultado y sus limitaciones.
+
+El riesgo es **bajo** por debajo del promedio de cancelación de los datos (27,7 %), **medio** entre ese promedio y el umbral, y **alto** desde el umbral (50 % por defecto).
+
+### Ejecutarla en el computador
 
 Se necesita Python 3.13.
 
@@ -76,32 +85,28 @@ streamlit run app.py
 
 En macOS o Linux, el segundo comando es **source entorno/bin/activate**. La aplicación se abre en el navegador en http://localhost:8501.
 
-## Publicar la aplicación en Streamlit Community Cloud
+### Publicación en Streamlit Community Cloud
 
-Streamlit Community Cloud publica gratis aplicaciones que están en un repositorio público de GitHub.
+La aplicación está publicada en https://prediccion-cancelacion-reserva-hotel.streamlit.app/ y se actualiza sola cada vez que se sube un cambio a la rama main.
+
+Para publicarla en otra cuenta:
 
 1. Entrar a https://share.streamlit.io e iniciar sesión con la cuenta de GitHub dueña del repositorio.
 2. Pulsar **Create app** y elegir la opción de desplegar desde un repositorio de GitHub.
-3. Completar los datos:
-   - **Repository**: hombremono873/predicci-n_cancelacion_reserva_hotel
-   - **Branch**: main
-   - **Main file path**: app.py
-   - **App URL**: el nombre que se quiera para la dirección, por ejemplo cancelaciones-hotel (queda como cancelaciones-hotel.streamlit.app).
-4. En **Advanced settings**, elegir **Python 3.13**, la misma versión con la que se entrenó y probó el modelo.
+3. Completar los datos: el repositorio, la rama **main** y el archivo principal **app.py**.
+4. En **Advanced settings**, elegir **Python 3.13**.
 5. Pulsar **Deploy**. La primera vez tarda unos minutos mientras instala las librerías de requirements.txt.
 
-Cada vez que se sube un cambio a la rama main, la aplicación se actualiza sola.
+## Descargar el repositorio
 
-**Dirección de la aplicación publicada**: https://prediccion-cancelacion-reserva-hotel.streamlit.app/
+El código está en https://github.com/hombremono873/predicci-n_cancelacion_reserva_hotel
 
-## Uso de la aplicación
+Se puede descargar con el botón **Code** y luego **Download ZIP**, o clonarlo con git:
 
-- **Portada**: presenta el proyecto y los créditos. El botón **Continuar** abre la aplicación.
-- **Predicción**: los datos de la reserva se llenan en cuatro pestañas (Llegada, Huéspedes, Canal y cliente, Historial). La tarjeta de resultado muestra la probabilidad de cancelación y el nivel de riesgo, y se actualiza con cada cambio.
-- **Cómo funciona**: explica cómo se calcula el riesgo.
-- **Menú lateral**: permite cargar reservas de ejemplo, ajustar el umbral de riesgo alto y ver la ficha del modelo.
-
-El riesgo es **alto** cuando la probabilidad llega al umbral, **medio** cuando está entre el promedio del hotel (27,7 %) y el umbral, y **bajo** cuando está por debajo del promedio.
+```
+git clone https://github.com/hombremono873/predicci-n_cancelacion_reserva_hotel.git
+cd predicci-n_cancelacion_reserva_hotel
+```
 
 ## Créditos
 
