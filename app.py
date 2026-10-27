@@ -26,10 +26,19 @@ def mostrar_menu_lateral(paquete: dict) -> float:
         st.markdown("### Riesgo de cancelación")
         st.caption("Complete los datos de la reserva para estimar su probabilidad de cancelación.")
 
-        st.selectbox("Cargar un ejemplo", list(EJEMPLOS), key="ejemplo", on_change=cargar_ejemplo_elegido)
-        umbral = st.slider(
-            "Umbral de riesgo alto", UMBRAL_MINIMO, UMBRAL_MAXIMO, step=PASO_UMBRAL, key="umbral",
+        st.selectbox(
+            "Cargar un ejemplo", list(EJEMPLOS), key="ejemplo", on_change=cargar_ejemplo_elegido,
+            help="Llena todos los campos con una reserva típica de riesgo bajo, medio o alto.",
+        )
+        st.caption("Llena el formulario con una reserva de muestra. Después puede cambiar cualquier dato.")
+
+        umbral_porcentaje = st.slider(
+            "Umbral de riesgo alto", UMBRAL_MINIMO, UMBRAL_MAXIMO, step=PASO_UMBRAL, key="umbral", format="%d %%",
             help="Desde esta probabilidad, una reserva se considera de riesgo alto.",
+        )
+        st.caption(
+            "Desde este porcentaje la reserva se marca como riesgo alto. Un valor más bajo detecta más "
+            "cancelaciones, pero también da más falsas alarmas."
         )
 
         st.divider()
@@ -38,14 +47,14 @@ def mostrar_menu_lateral(paquete: dict) -> float:
 
         st.divider()
         st.button("Ver créditos", type="tertiary", on_click=volver_a_la_portada)
-    return umbral
+    return umbral_porcentaje / 100
 
 
 def iniciar_estado(paquete: dict) -> None:
     """Carga el ejemplo inicial y el umbral del modelo la primera vez que se abre la aplicación."""
     if "ejemplo" not in st.session_state:
         st.session_state["ejemplo"] = EJEMPLO_INICIAL
-        st.session_state["umbral"] = paquete["umbral"]
+        st.session_state["umbral"] = round(paquete["umbral"] * 100)
         cargar_ejemplo(EJEMPLO_INICIAL)
 
 
@@ -95,7 +104,11 @@ def main() -> None:
     with prediccion:
         datos_reserva, resultado = st.columns([3, 2], gap="large")
         with datos_reserva:
-            campos = mostrar_campos(paquete["predictoras"], obtener_opciones(paquete))
+            st.caption(
+                f"Los campos vienen llenos con el ejemplo **{st.session_state['ejemplo']}** del menú lateral. "
+                "Cambie los datos que quiera y el resultado se actualiza solo."
+            )
+            campos =mostrar_campos(paquete["predictoras"], obtener_opciones(paquete))
         with resultado:
             probabilidad = calcular_probabilidad(paquete, campos)
             riesgo = clasificar_riesgo(probabilidad, umbral, TASA_CANCELACION_DATOS)

@@ -126,7 +126,11 @@ def mostrar_huespedes(predictoras: list[str], campos: dict) -> None:
     izquierda, derecha = st.columns(2, gap="large")
     with izquierda:
         if se_muestra("adultos", predictoras):
-            campos["adultos"] = st.number_input("Adultos", 1, ADULTOS_MAXIMOS, key="adultos")
+            campos["adultos"] = st.number_input(
+                "Adultos", 1, ADULTOS_MAXIMOS, key="adultos",
+                help="El modelo trata igual las reservas de 4 o más adultos, porque en los datos casi no hay "
+                     "reservas con más de 4.",
+            )
         if se_muestra("ninos", predictoras):
             campos["ninos"] = st.number_input("Niños", 0, NINOS_MAXIMOS, key="ninos")
         if se_muestra("bebes", predictoras):
@@ -208,7 +212,11 @@ def mostrar_historial(predictoras: list[str], campos: dict) -> None:
             )
     with derecha:
         if se_muestra("tarifa_diaria_promedio", predictoras):
-            campos["tarifa_diaria_promedio"] = st.slider("Tarifa por noche", 0, TARIFA_MAXIMA, key="tarifa_diaria_promedio")
+            campos["tarifa_diaria_promedio"] = st.slider(
+                "Tarifa por noche", 0, TARIFA_MAXIMA, key="tarifa_diaria_promedio", format="%d €",
+                help="Precio promedio por noche de la reserva, en euros. El valor inicial viene del ejemplo "
+                     "cargado; muévalo para poner la tarifa de la reserva que quiere evaluar.",
+            )
         if se_muestra("solicitudes_especiales", predictoras):
             campos["solicitudes_especiales"] = st.slider(
                 "Solicitudes especiales", 0, SOLICITUDES_MAXIMAS, key="solicitudes_especiales",

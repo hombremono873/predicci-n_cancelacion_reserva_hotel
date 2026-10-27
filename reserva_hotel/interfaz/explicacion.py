@@ -19,7 +19,7 @@ def mostrar_explicacion(tasa_cancelacion: float) -> None:
         )
         st.markdown("#### Cómo leer el resultado")
         st.write(
-            "**Riesgo alto**: la probabilidad supera el umbral elegido en el menú lateral. "
+            "**Riesgo alto**: la probabilidad llega al umbral elegido en el menú lateral. "
             "**Riesgo medio**: está entre el promedio del hotel y el umbral. "
             "**Riesgo bajo**: está por debajo del promedio."
         )

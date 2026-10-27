@@ -107,6 +107,6 @@ El riesgo es **alto** cuando la probabilidad llega al umbral, **medio** cuando e
 
 - Universidad Santo Tomás
 - Maestría en Análisis de Datos y Sistemas Inteligentes
-- Estudiantes: Omar Alberto Torres y Diego Alejandro Roa Lara
+- Estudiantes: Omar Alberto Torres, Diego Alejandro Roa Lara y Jorge Enrique Alvarez Martinez
 - Docente: Gerardo Humberto Valencia Rivera
 - Noviembre de 2026

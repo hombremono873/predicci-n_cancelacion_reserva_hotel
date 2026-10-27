@@ -73,7 +73,8 @@ VARIABLE_DE_CADA_CAMPO = {
 DIAS_ANTICIPACION_MAXIMOS = 737
 NOCHES_FIN_SEMANA_MAXIMAS = 19
 NOCHES_ENTRE_SEMANA_MAXIMAS = 50
-ADULTOS_MAXIMOS = 4
+# Se permiten más adultos que MAXIMO_ADULTOS; el modelo trata igual las reservas de 4 o más
+ADULTOS_MAXIMOS = 10
 NINOS_MAXIMOS = 10
 BEBES_MAXIMOS = 10
 HISTORIAL_MAXIMO = 72
@@ -157,10 +158,10 @@ ETIQUETAS_CATEGORIAS = {
 }
 
 # Niveles de riesgo: alto desde el umbral; medio entre el promedio del hotel y el umbral
-UMBRAL_INICIAL = 0.5
-UMBRAL_MINIMO = 0.2
-UMBRAL_MAXIMO = 0.8
-PASO_UMBRAL = 0.05
+# El umbral se elige en porcentaje; el mínimo queda por encima del promedio del hotel para que exista el riesgo medio
+UMBRAL_MINIMO = 30
+UMBRAL_MAXIMO = 80
+PASO_UMBRAL = 5
 RECOMENDACIONES = {
     "alto": "Confirmar la reserva con el cliente o pedir un depósito.",
     "medio": "Hacer seguimiento a la reserva antes de la llegada.",
@@ -193,7 +194,7 @@ FUNCIONES_APLICACION = [
 CREDITOS = {
     "universidad": "Universidad Santo Tomás",
     "programa": "Maestría en Análisis de Datos y Sistemas Inteligentes",
-    "estudiantes": ["Omar Alberto Torres", "Diego Alejandro Roa Lara"],
+    "estudiantes": ["Omar Alberto Torres", "Diego Alejandro Roa Lara", "Jorge Enrique Alvarez Martinez"],
     "docente": "Gerardo Humberto Valencia Rivera",
     "fecha": "Noviembre de 2026",
 }
