@@ -36,3 +36,9 @@ def mostrar_explicacion(tasa_cancelacion: float) -> None:
             "pueden ser distintos. El modelo indica un riesgo, no una certeza: debe apoyar la decisión, "
             "no reemplazarla."
         )
+        st.write(
+            "El modelo encuentra relaciones en los datos, no causas. Por ejemplo, con un depósito **no "
+            "reembolsable** da un riesgo muy alto, porque en los datos el 94,7 % de esas reservas se canceló. "
+            "Casi todas eran de clientes de Portugal, sobre todo reservas de grupo y de agencias hechas con "
+            "mucha anticipación, así que el resultado puede no aplicar a una reserva individual."
+        )

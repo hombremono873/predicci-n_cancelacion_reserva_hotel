@@ -66,8 +66,8 @@ La aplicación no vuelve a entrenar el modelo. Usa dos cosas del notebook:
 ### Uso
 
 - **Portada**: presenta el proyecto y los créditos. El botón **Continuar** abre la aplicación.
-- **Menú lateral**: permite cargar una reserva de ejemplo (riesgo bajo, medio o alto) que llena todo el formulario, elegir el umbral de riesgo alto y ver qué modelo se usa.
-- **Predicción**: los datos de la reserva se llenan en cuatro pestañas (Llegada, Huéspedes, Canal y cliente, Historial). La tarjeta de resultado muestra la probabilidad de cancelación y el nivel de riesgo, y se actualiza con cada cambio.
+- **Menú lateral**: permite cargar una reserva de ejemplo (riesgo bajo, medio o alto; son reservas reales del dataset) que llena todo el formulario, elegir el umbral de riesgo alto y ver qué modelo se usa.
+- **Predicción**: un campo por cada una de las 21 predictoras del modelo, con el mismo nombre de la variable, agrupados en cuatro pestañas (Llegada y estancia, Reserva, Canal de venta, Cliente). Los rangos y las opciones salen de los datos limpios, y solo se ofrecen las combinaciones de segmento y canal que existen en ellos. La tarjeta de resultado muestra la probabilidad de cancelación y el nivel de riesgo, y se actualiza con cada cambio.
 - **Cómo funciona**: explica qué datos usa el modelo, cómo leer el resultado y sus limitaciones.
 
 El riesgo es **bajo** por debajo del promedio de cancelación de los datos (27,7 %), **medio** entre ese promedio y el umbral, y **alto** desde el umbral (50 % por defecto).

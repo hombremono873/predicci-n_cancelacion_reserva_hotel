@@ -108,7 +108,7 @@ def main() -> None:
                 f"Los campos vienen llenos con el ejemplo **{st.session_state['ejemplo']}** del menú lateral. "
                 "Cambie los datos que quiera y el resultado se actualiza solo."
             )
-            campos =mostrar_campos(paquete["predictoras"], obtener_opciones(paquete))
+            campos = mostrar_campos(paquete["predictoras"], obtener_opciones(paquete))
         with resultado:
             probabilidad = calcular_probabilidad(paquete, campos)
             riesgo = clasificar_riesgo(probabilidad, umbral, TASA_CANCELACION_DATOS)
