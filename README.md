@@ -28,7 +28,7 @@ Se compararon tres modelos (regresión logística, Random Forest y Gradient Boos
 
 | Archivo o carpeta | Contenido |
 |---|---|
-| Diego_Jorge_Omar_Reserva_Hotel_Backup.ipynb | Notebook del proyecto (50 pasos), pensado para Google Colab |
+| Diego_Jorge_Omar_Reserva_Hotel_Backup.ipynb | Notebook del proyecto (49 pasos), pensado para Google Colab |
 | modelos/modelo_cancelaciones.joblib | Modelo entrenado que usa la aplicación |
 | app.py | Punto de entrada de la aplicación Streamlit |
 | reserva_hotel/ | Código de la aplicación: configuración, transformación de la reserva, predicción e interfaz |
@@ -37,7 +37,7 @@ Se compararon tres modelos (regresión logística, Random Forest y Gradient Boos
 
 ## El notebook
 
-Todo el código está dentro del notebook, así que no necesita archivos adicionales. Está organizado en 50 pasos:
+Todo el código está dentro del notebook, así que no necesita archivos adicionales. Está organizado en 49 pasos y termina con las conclusiones:
 
 | Pasos | Etapa | Qué se hace |
 |---|---|---|
@@ -46,7 +46,7 @@ Todo el código está dentro del notebook, así que no necesita archivos adicion
 | 16 a 24 | Limpieza y transformación | Duplicados, columnas con fuga de datos, valores imposibles, imputación, indicadores, transformaciones y validación |
 | 25 | Carga | Guardado del dataset limpio en un archivo CSV |
 | 26 a 46 | Modelado | División en entrenamiento y prueba, tres experimentos con tres modelos y comparación final |
-| 47 a 50 | Exportación | Elección, guardado y descarga del mejor modelo, y una función main con todo el flujo |
+| 47 a 49 | Exportación | Versiones del entorno y elección, guardado y descarga del mejor modelo |
 
 ### Ejecutarlo en Google Colab
 
